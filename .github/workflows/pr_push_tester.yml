@@ -1,0 +1,32 @@
+name: Python CI
+
+on: 
+  push:
+  branches: 
+     - main # main 브랜치에push할때실행
+  pull_request:
+  branches:
+     - main # main 브랜치로PR 시실행
+
+jobs:
+  test:
+    runs-on: ubuntu-latest # 테스트가 실행될 환경
+
+steps:
+# 1. GitHub 저장소에서코드체크아웃
+  - name: Check out code
+    uses: actions/checkout@v2
+# 2. 지정된파이썬버전설치
+  - name: Set up Python
+    uses: actions/setup-python@v4
+    with:
+      python-version: '3.9'  # 원하는 Python 버전
+# 3. 의존성설치
+  - name: Install dependencies
+    run: |
+     python-m pip install--upgrade pip
+     pip install-r requirements.txt
+# 4. 유닛테스트실행
+  - name: Run tests
+    run: |
+     pytest
